@@ -103,7 +103,8 @@ if [ -d ./vcvars.tmp ] ; then
 fi
 
 
-echo -n $PATH | awk -v RS=: '!($0 in a) {a[$0]; printf("%s%s", length(a) > 1 ? ":" : "", $0)}'
+ltmp=$(printf "$PATH" "$*" | sed -r 's!(.):([\\\/].*)$!/cygdrive/\1\2!;s!\\!/!g')
+export PATH=$(echo -n $ltmp | awk -v RS=: '!($0 in a) {a[$0]; printf("%s%s", length(a) > 1 ? ":" : "", $0)}')
 
 
 
